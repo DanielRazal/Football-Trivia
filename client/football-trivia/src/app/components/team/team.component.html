@@ -1,0 +1,20 @@
+<!-- <h1 class="text-4xl text-center mt-5">Guess the Team</h1> -->
+
+
+<div class="flex justify-center items-center">
+    <div class="my-2 flex items-center">
+        <mat-card class="h-52 w-52 m-2" *ngIf="standings[currentIndex]">
+            <img [src]="standings[currentIndex].href" alt="{{standings[currentIndex].name}}">
+        </mat-card>
+    </div>
+</div>
+<div class="flex justify-center items-center">
+    <mat-form-field>
+        <mat-label>Team Name</mat-label>
+        <input matInput [(ngModel)]="teamName">
+    </mat-form-field>
+</div>
+
+<div class="flex justify-center items-center">
+    <button mat-raised-button (click)="isInputCorrect()">Check</button>
+</div>
