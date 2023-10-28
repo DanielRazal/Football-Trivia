@@ -12,12 +12,16 @@ import { TeamComponent } from './components/team/team.component';
 import { MatIconModule } from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     TriviaComponent,
-    TeamComponent
+    TeamComponent,
+    MessageDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +32,8 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     MatIconModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
