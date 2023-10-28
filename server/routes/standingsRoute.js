@@ -1,7 +1,6 @@
 const express = require('express');
 const route = express.Router();
 const axios = require('axios');
-const shuffleArray = require('../randomTeams/shuffleArray');
 
 require('dotenv').config();
 
@@ -21,8 +20,6 @@ route.get('/:leagueId', async (req, res) => {
             name: standing.team.name,
             href: standing.team.logos[0].href
         }));
-
-        // shuffleArray(teamInfo);
 
         res.send(teamInfo);
 

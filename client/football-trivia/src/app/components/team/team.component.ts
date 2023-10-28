@@ -17,7 +17,6 @@ export class TeamComponent implements OnInit {
   standings: Standing[] = [];
   teamName: string = "";
   isCorrect: boolean | null = null;
-  isSpace: boolean = false;
   currentHelpIndex: number = 0;
   teamHelpVisible: boolean = true;
   displayedTeamHelp: { label: string; value: string }[] = [];
@@ -27,12 +26,12 @@ export class TeamComponent implements OnInit {
 
   ngOnInit(): void {
     this.leagueId = localStorage.getItem('LeagueId')!;
-    const standingsJSON = localStorage.getItem('standings');
-    if (standingsJSON) {
-      this.standings = JSON.parse(standingsJSON);
-    } else {
-      this.getStandingByLeagueId();
-    }
+    // const standingsJSON = localStorage.getItem('standings');
+    // if (standingsJSON) {
+    //   this.standings = JSON.parse(standingsJSON);
+    // } else {
+    this.getStandingByLeagueId();
+    // }
   }
 
   getStandingByLeagueId() {
@@ -53,11 +52,11 @@ export class TeamComponent implements OnInit {
         currentTeam.isCorrect = true;
         this.openMessageDialog('Success', 'Correct answer!', true);
 
-        const index = this.standings.indexOf(currentTeam);
-        if (index !== -1) {
-          this.standings.splice(index, 1);
-          localStorage.setItem('standings', JSON.stringify(this.standings));
-        }
+        // const index = this.standings.indexOf(currentTeam);
+        // if (index !== -1) {
+        //   this.standings.splice(index, 1);
+        //   localStorage.setItem('standings', JSON.stringify(this.standings));
+        // }
       } else {
         this.openMessageDialog('Error', 'Incorrect answer.', false);
       }
@@ -82,34 +81,27 @@ export class TeamComponent implements OnInit {
     }
   }
 
-  showTeamHelp() {
-    if (this.standings[this.currentIndex]) {
-      const currentTeamName = this.standings[this.currentIndex].name;
-
-      switch (this.currentHelpIndex) {
-        case 0:
-          this.displayedTeamHelp.push({ label: 'Length of the team name', value: currentTeamName.length.toString() });
-          break;
-        case 1:
-          this.displayedTeamHelp.push({ label: 'First letter of the team name', value: currentTeamName[0] });
-          break;
-        case 2:
-          this.displayedTeamHelp.push({ label: 'Last letter of the team name', value: currentTeamName.slice(-1) });
-          break;
-        case 3:
-          this.displayedTeamHelp.push({ label: 'Team name contains a space', value: currentTeamName.includes(' ') ? 'Have space' : 'No space' });
-          break;
-        case 4:
-          this.displayedTeamHelp.push({ label: 'Full team name', value: currentTeamName });
-          break;
-      }
-
-      this.currentHelpIndex++;
-
-      console.log(this.displayedTeamHelp)
-    }
-  }
   clearDisplayedTeamHelp() {
     this.displayedTeamHelp = [];
   }
+
+  showTeamHelp() {
+    if (this.standings[this.currentIndex]) {
+
+      this.standingService.HelpConditions
+        (this.standings, this.currentIndex, this.currentHelpIndex, this.displayedTeamHelp)
+
+      this.currentHelpIndex++;
+
+      if (this.currentHelpIndex >= 5) {
+        this.currentHelpIndex = 0;
+      }
+    }
+
+  }
+
+  isHelpButtonDisabled(): boolean {
+    return this.displayedTeamHelp.length >= 5;
+  }
+
 }
