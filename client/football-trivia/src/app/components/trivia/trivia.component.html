@@ -1,12 +1,13 @@
-<h1 *ngIf="isAccepted" class="text-4xl text-center mt-5">Choose Trivia League</h1>
+<!-- <h1 *ngIf="isAccepted" class="text-4xl text-center mt-5">Choose Trivia League</h1> -->
 
 <div class="h-screen flex justify-center items-center">
-    <button mat-raised-button color="primary" (click)="showLeagues()" *ngIf="!isAccepted">LET'S PLAY</button>
-    <div *ngIf="isAccepted">
+    <!-- <button mat-raised-button color="primary" (click)="showLeagues()" *ngIf="!isAccepted">LET'S PLAY</button> -->
+    <!-- <div *ngIf="isAccepted"> -->
         <div class="flex flex-wrap">
             <mat-card class="h-52 w-52 m-2" *ngFor="let league of leagues">
                 <button (click)="getLeagueId(league.id)"><img [src]="league.logos.light" alt="{{league.name}}"></button>
+                <button (click)="resetData(league.id)" mat-raised-button color="warn" class="mt-5">RESET</button>
             </mat-card>
-        </div>
+        <!-- </div> -->
     </div>
 </div>

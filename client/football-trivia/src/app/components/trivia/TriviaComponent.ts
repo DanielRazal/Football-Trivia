@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import League from 'src/app/models/League';
+import Standing from 'src/app/models/Standing';
 import { LeagueService } from 'src/app/services/league.service';
 
 
@@ -13,6 +14,7 @@ export class TriviaComponent implements OnInit {
 
   leagues: League[] = [];
   isAccepted = false;
+
 
   constructor(private leagueService: LeagueService,
     private router: Router) { }
@@ -33,9 +35,26 @@ export class TriviaComponent implements OnInit {
   }
 
   getLeagueId(id: string) {
+    const standingsKey = `standings_${id}`;
+    const standingsData = localStorage.getItem(standingsKey);
+
+    if (!standingsData) {
+      this.router.navigate(['team']);
+    } else {
+      alert('No standings data available for this league.');
+    }
+
     localStorage.setItem("LeagueId", id);
-    this.router.navigate(['team'])
   }
 
+
+
+
+  resetData(leagueId: string) {
+    const standingsById = `standings_${leagueId}`;
+    if (standingsById) {
+      localStorage.removeItem(standingsById);
+    }
+  }
 
 }

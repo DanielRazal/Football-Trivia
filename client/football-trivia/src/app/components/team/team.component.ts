@@ -3,6 +3,7 @@ import Standing from 'src/app/models/Standing';
 import { StandingService } from 'src/app/services/standing.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MessageDialogComponent } from '../message-dialog/message-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-team',
@@ -22,22 +23,23 @@ export class TeamComponent implements OnInit {
   displayedTeamHelp: { label: string; value: string }[] = [];
 
 
-  constructor(private standingService: StandingService, private dialog: MatDialog) { }
+  constructor(private standingService: StandingService, private dialog: MatDialog,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.leagueId = localStorage.getItem('LeagueId')!;
-    // const standingsJSON = localStorage.getItem('standings');
-    // if (standingsJSON) {
-    //   this.standings = JSON.parse(standingsJSON);
-    // } else {
-    this.getStandingByLeagueId();
-    // }
+    const leagueStandingsJSON = localStorage.getItem(`standings_${this.leagueId}`);
+    if (leagueStandingsJSON) {
+      this.standings = JSON.parse(leagueStandingsJSON);
+    } else {
+      this.getStandingByLeagueId();
+    }
   }
 
   getStandingByLeagueId() {
     this.standingService.getStandingByLeagueId(this.leagueId).subscribe((standings) => {
-      this.standings = standings;
-      // localStorage.setItem('standings', JSON.stringify(this.standings));
+      this.standings[0] = standings[0];
+      localStorage.setItem(`standings_${this.leagueId}`, JSON.stringify(this.standings));
       console.log(this.standings);
     });
   }
@@ -46,22 +48,36 @@ export class TeamComponent implements OnInit {
     if (this.standings[this.currentIndex] && this.teamName) {
       const currentTeam = this.standings[this.currentIndex];
 
-      if (currentTeam.name.toLowerCase() === this.teamName.toLowerCase()) {
+      if (currentTeam.name.trim().toLowerCase() === this.teamName.trim().toLowerCase()) {
         this.clearDisplayedTeamHelp();
-        this.moveToNextTeam();
-        currentTeam.isCorrect = true;
-        this.openMessageDialog('Success', 'Correct answer!', true);
 
-        // const index = this.standings.indexOf(currentTeam);
-        // if (index !== -1) {
-        //   this.standings.splice(index, 1);
-        //   localStorage.setItem('standings', JSON.stringify(this.standings));
-        // }
+        this.standings = this.standings.filter(team => team !== currentTeam);
+
+        localStorage.setItem(`standings_${this.leagueId}`, JSON.stringify(this.standings));
+
+        if (this.standings.length === 0) {
+          this.openMessageDialog('Success', `Well done! You finished the ${this.leagueId} league`, true);
+          this.router.navigate(['/trivia']);
+        }
+        else {
+          this.moveToNextTeam();
+          this.openMessageDialog('Success', 'Correct answer!', true);
+        }
+
+
       } else {
         this.openMessageDialog('Error', 'Incorrect answer.', false);
       }
-    } else if (this.teamName.length === 0) {
+    }
+    else if (this.teamName.length === 0) {
       this.openMessageDialog('Error', 'Team name is empty.', false);
+    }
+  }
+
+  moveToNextTeam() {
+    if (this.currentIndex < this.standings.length - 1) {
+      this.teamName = "";
+      this.isCorrect = null;
     }
   }
 
@@ -73,13 +89,6 @@ export class TeamComponent implements OnInit {
   }
 
 
-  moveToNextTeam() {
-    if (this.currentIndex < this.standings.length - 1) {
-      this.currentIndex++;
-      this.teamName = "";
-      this.isCorrect = null;
-    }
-  }
 
   clearDisplayedTeamHelp() {
     this.displayedTeamHelp = [];
