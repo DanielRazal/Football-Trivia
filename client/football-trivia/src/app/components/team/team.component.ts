@@ -23,6 +23,7 @@ export class TeamComponent implements OnInit {
   displayedTeamHelp: { label: string; value: string }[] = [];
 
 
+
   constructor(private standingService: StandingService, private dialog: MatDialog,
     private router: Router) { }
 
@@ -34,13 +35,18 @@ export class TeamComponent implements OnInit {
     } else {
       this.getStandingByLeagueId();
     }
+
+    if (leagueStandingsJSON === '[]') {
+      this.openMessageDialog('Error',
+        `You finished the trivia about ${this.leagueId} league. You can press the reset button to start over`, false);
+      this.router.navigate(['trivia']);
+    }
   }
 
   getStandingByLeagueId() {
     this.standingService.getStandingByLeagueId(this.leagueId).subscribe((standings) => {
-      this.standings[0] = standings[0];
+      this.standings = standings;
       localStorage.setItem(`standings_${this.leagueId}`, JSON.stringify(this.standings));
-      console.log(this.standings);
     });
   }
 

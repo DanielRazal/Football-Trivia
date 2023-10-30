@@ -1,24 +1,5 @@
 <!-- <h1 class="text-4xl text-center mt-5">Guess the Team</h1> -->
 
-
-<div class="flex justify-start items-center">
-    <mat-card class="w-72">
-        <div class="flex justify-center items-center">
-            <button mat-raised-button color="accent" (click)="showTeamHelp()"
-                [disabled]="isHelpButtonDisabled()">HELP</button>
-        </div>
-
-        <div class="flex justify-start items-center">
-            <div *ngIf="teamHelpVisible">
-                <ng-container *ngFor="let help of displayedTeamHelp; let i = index">
-                    <p>{{ help.label }}: {{ help.value }}</p>
-                </ng-container>
-            </div>
-        </div>
-    </mat-card>
-</div>
-
-
 <div class="flex justify-center items-center">
     <div class="my-2 flex items-center relative">
         <div class="flex flex-col justify-center">
@@ -29,14 +10,34 @@
     </div>
 </div>
 
+<div class="help-container">
+    <div class="flex justify-start items-center">
+        <mat-card class="w-72">
+            <div class="flex justify-center items-center">
+                <button mat-raised-button color="accent" (click)="showTeamHelp()"
+                    [disabled]="isHelpButtonDisabled()">HELP</button>
+            </div>
 
-<div class="flex justify-center items-center">
-    <mat-form-field>
-        <mat-label>Team Name</mat-label>
-        <input matInput [(ngModel)]="teamName">
-    </mat-form-field>
+            <div class="flex justify-start items-center">
+                <div *ngIf="teamHelpVisible">
+                    <ng-container *ngFor="let help of displayedTeamHelp; let i = index">
+                        <p>{{ help.label }}: {{ help.value }}</p>
+                    </ng-container>
+                </div>
+            </div>
+        </mat-card>
+    </div>
 </div>
 
+<div class="flex justify-center items-center">
+    <div class="flex-column">
+        <mat-form-field>
+            <mat-label>Team Name</mat-label>
+            <input matInput [(ngModel)]="teamName">
+        </mat-form-field>
+
+    </div>
+</div>
 <div class="flex justify-center items-center">
     <button mat-raised-button (click)="isInputCorrect()">Check</button>
 </div>
