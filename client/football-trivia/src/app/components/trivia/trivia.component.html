@@ -6,7 +6,7 @@
     <div class="flex flex-wrap">
         <mat-card class="h-52 w-52 m-2 league-container" *ngFor="let league of leagues">
             <button (click)="getLeagueId(league.id)"><img [src]="league.logos.light" alt="{{league.name}}"></button>
-            <p class="text-4xl text-center percent-number">{{percentNumber(league.id)}}%</p>
+            <p class="text-4xl text-center percent-number">{{ percentNumber(league.id, totalGroups) }}%</p>
             <!-- Call the percentNumber function here -->
             <button (click)="resetData(league.id)" mat-raised-button color="warn" class="mt-1">RESET</button>
         </mat-card>

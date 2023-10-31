@@ -57,31 +57,88 @@ export class TriviaComponent implements OnInit {
     }
   }
 
-  percentNumber(leagueId: string) {
+  // percentNumber(leagueId: string) {
+  //   const standingsByLeagueId = `standings_${leagueId}`;
+  //   const leagueStandingsJSON = localStorage.getItem(standingsByLeagueId);
+  //   const leagueStandingsArray = JSON.parse(leagueStandingsJSON!);
+
+  //   if (Array.isArray(leagueStandingsArray)) {
+  //     const numberOfGroups = leagueStandingsArray.length;
+  //     console.log("Number of groups: " + numberOfGroups);
+  //   } else {
+  //     console.log("Invalid JSON format");
+  //   }
+
+  //   // if (leagueStandingsJSON === '[]') {
+  //   //   this.percent = 100; // User knows all the teams
+  //   // } else if (!leagueStandingsJSON) {
+  //   //   this.percent = 0; // User doesn't know any teams
+  //   // } else {
+  //   //   const teams = JSON.parse(leagueStandingsJSON);
+  //   //   const totalTeams = teams.length;
+
+  //   //   // Track how many teams the user knows
+  //   //   let knownTeamsCount = 0;
+
+  //   //   // Check if the user knows each team
+  //   //   for (const team of teams) {
+  //   //     const foundTeam = this.leagues.find((league) => league.id === team.id);
+  //   //     if (foundTeam) {
+  //   //       knownTeamsCount++;
+  //   //     }
+  //   //   }
+
+  //   //   if (knownTeamsCount === 0) {
+  //   //     this.percent = 0; // User doesn't know any teams
+  //   //   } else {
+  //   //     const percentageKnown = (knownTeamsCount / totalTeams) * 100;
+  //   //     this.percent = Math.min(100, Math.max(0, Math.floor(percentageKnown)));
+  //   //   }
+  //   // }
+
+  //   return this.percent;
+  // }
+
+
+  // percentNumber(leagueId: string) {
+  //   const standingsByLeagueId = `standings_${leagueId}`;
+  //   const leagueStandingsJSON = localStorage.getItem(standingsByLeagueId);
+  //   const leagueStandingsArray = JSON.parse(leagueStandingsJSON!);
+
+  //   if (Array.isArray(leagueStandingsArray)) {
+  //     const numberOfGroups = leagueStandingsArray.length;
+  //     console.log("Number of groups: " + numberOfGroups);
+
+  //     const percentage = ((20 - numberOfGroups) / 20) * 100;
+  //     console.log("Percentage: " + percentage + "%");
+
+  //     return percentage;
+  //   } else {
+  //     console.log("Invalid JSON format");
+  //     return null; 
+  //   }
+  // }
+  leagueStandingsArray: any[] = [] // Define and populate this property as needed
+  totalGroups: number = -1;
+  percentNumber(leagueId: string, totalGroups: number) {
     const standingsByLeagueId = `standings_${leagueId}`;
     const leagueStandingsJSON = localStorage.getItem(standingsByLeagueId);
-
-    if (leagueStandingsJSON === '[]') {
-      this.percent = 100; // Empty array, so 100%
-    } else if (!leagueStandingsJSON) {
-      this.percent = 0; // No localStorage data, so 0%
+    const leagueStandingsArray = JSON.parse(leagueStandingsJSON!);
+  
+    if (Array.isArray(leagueStandingsArray)) {
+      const numberOfGroups = leagueStandingsArray.length;
+      console.log("Number of groups: " + numberOfGroups);
+  
+      // Calculate the percentage
+      const percentage = ((totalGroups - numberOfGroups) / totalGroups) * 100;
+      console.log("Percentage: " + percentage + "%");
+  
+      // Now you have the 'percentage' value that starts from 0 and increases as the number of groups decreases relative to 'totalGroups'.
+      return percentage;
     } else {
-      const teams = JSON.parse(leagueStandingsJSON);
-      const totalTeams = teams.length;
-      const remainingTeams = this.leagues.find((league) => league.id === leagueId)?.name.length || 0; // Assuming leagues have teams
-
-      if (remainingTeams === 0) {
-        this.percent = 100; // You've finished the league
-      } else {
-        const percentageRemaining = (remainingTeams / totalTeams) * 100;
-        this.percent = Math.floor(percentageRemaining);
-      }
+      console.log("Invalid JSON format");
+      return null; // You can return an appropriate value in case of an error.
     }
-
-    return this.percent;
   }
-
-
-
 
 }
