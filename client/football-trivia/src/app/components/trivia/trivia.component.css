@@ -112,3 +112,7 @@
         height: 80px;
     }
 }
+
+.custom-card {
+    border: 2px solid #000;
+}

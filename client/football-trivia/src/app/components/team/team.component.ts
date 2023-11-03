@@ -22,8 +22,6 @@ export class TeamComponent implements OnInit {
   teamHelpVisible: boolean = true;
   displayedTeamHelp: { label: string; value: string }[] = [];
 
-
-
   constructor(private standingService: StandingService, private dialog: MatDialog,
     private router: Router) { }
 

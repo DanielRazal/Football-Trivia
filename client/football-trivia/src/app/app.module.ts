@@ -7,14 +7,13 @@ import { TriviaComponent } from './components/trivia/TriviaComponent';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { TeamComponent } from './components/team/team.component';
 import { MatIconModule } from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-
 
 @NgModule({
   declarations: [
@@ -33,9 +32,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatIconModule,
     MatInputModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   providers: [],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

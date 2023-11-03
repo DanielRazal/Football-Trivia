@@ -37,6 +37,7 @@ export class TriviaComponent implements OnInit {
     })
   }
 
+
   openMessageDialog(title: string, message: string, isCorrect: boolean) {
     this.dialog.open(MessageDialogComponent, {
       data: { title, message, isCorrect },
@@ -84,6 +85,4 @@ export class TriviaComponent implements OnInit {
 
     return Math.floor(percentage);
   }
-
-
 }

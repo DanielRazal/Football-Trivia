@@ -4,24 +4,24 @@
     <div class="my-2 flex items-center relative">
         <div class="flex flex-col justify-center">
             <mat-card class="h-52 w-52 m-2" *ngIf="standings[currentIndex] && !standings[currentIndex].isCorrect">
-                <img [src]="standings[currentIndex].href" alt="{{standings[currentIndex].name}}">
+                <img [src]="standings[currentIndex].href" loading="lazy" alt="{{standings[currentIndex].name}}">
             </mat-card>
         </div>
     </div>
 </div>
 
-<div class="help-container">
+
+<div class="help-container ml-5 mt-5">
+    <button mat-raised-button color="accent" (click)="showTeamHelp()" [disabled]="isHelpButtonDisabled()">HELP</button>
     <div class="flex justify-start items-center">
-        <mat-card class="w-72">
+        <mat-card class="w-72 p-2 mt-5" *ngIf="teamHelpVisible && displayedTeamHelp.length > 0">
             <div class="flex justify-center items-center">
-                <button mat-raised-button color="accent" (click)="showTeamHelp()"
-                    [disabled]="isHelpButtonDisabled()">HELP</button>
             </div>
 
             <div class="flex justify-start items-center">
                 <div *ngIf="teamHelpVisible">
                     <ng-container *ngFor="let help of displayedTeamHelp; let i = index">
-                        <p>{{ help.label }}: {{ help.value }}</p>
+                        <p>{{ help.label }}: <span class="text-blue-500">{{ help.value }}</span></p>
                     </ng-container>
                 </div>
             </div>
@@ -29,15 +29,16 @@
     </div>
 </div>
 
+
 <div class="flex justify-center items-center">
     <div class="flex-column">
         <mat-form-field>
             <mat-label>Team Name</mat-label>
             <input matInput [(ngModel)]="teamName">
         </mat-form-field>
-
     </div>
 </div>
+
 <div class="flex justify-center items-center">
-    <button mat-raised-button (click)="isInputCorrect()">Check</button>
+    <button mat-raised-button (click)="isInputCorrect()">Team Guesser</button>
 </div>
