@@ -16,6 +16,7 @@ export class TriviaComponent implements OnInit {
   leagues: League[] = [];
   isAccepted: boolean = false;
   totalGroups: number = 20;
+  loading: boolean = true;
 
 
   constructor(private leagueService: LeagueService,
@@ -23,7 +24,10 @@ export class TriviaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getLeagues();
+    this.loadData().then(() => {
+      this.getLeagues();
+      this.loading = false;
+    });
   }
 
   showLeagues() {
@@ -34,6 +38,7 @@ export class TriviaComponent implements OnInit {
   getLeagues() {
     this.leagueService.getLeagues().subscribe((leagues) => {
       this.leagues = leagues;
+      this.loading = false;
     })
   }
 
@@ -59,30 +64,11 @@ export class TriviaComponent implements OnInit {
   }
 
 
-  percentNumber(leagueId: string) {
-    const standingsByLeagueId = `standings_${leagueId}`;
-    const leagueStandingsJSON = localStorage.getItem(standingsByLeagueId);
-    const leagueStandingsArray = JSON.parse(leagueStandingsJSON!);
-    console.log(leagueStandingsArray)
+  percentNumber(leagueId: string, totalGroups: number) {
+    return this.leagueService.percentNumber(leagueId, totalGroups)
+  }
 
-    if (leagueId === 'ger.1' || leagueId === 'fra.1') {
-      this.totalGroups = 18;
-    } else {
-      this.totalGroups = 20;
-    }
-
-    let percentage = 0;
-
-    if (Array.isArray(leagueStandingsArray)) {
-      const numberOfGroups = leagueStandingsArray.length;
-      console.log("Number of groups: " + numberOfGroups);
-
-      percentage = ((this.totalGroups - numberOfGroups) / this.totalGroups) * 100;
-      console.log("Percentage: " + percentage + "%");
-    } else {
-      console.log("Invalid JSON format");
-    }
-
-    return Math.floor(percentage);
+  async loadData() {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
   }
 }

@@ -4,3 +4,21 @@
     top: 0;
     left: 0;
 }
+
+@media (max-width: 850px) {
+    .help-data {
+        width: 250px;
+    }
+}
+
+@media (max-width: 780px) {
+    .help-data {
+        width: 200px;
+    }
+}
+
+@media (max-width: 680px) {
+    .help-container {
+        display: none;
+    }
+}

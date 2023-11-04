@@ -21,19 +21,19 @@ export class StandingService {
 
   HelpConditions(standings: Standing[], currentIndex: number, currentHelpIndex: number,
     displayedTeamHelp: { label: string; value: string }[]) {
-      const currentTeamName = standings[currentIndex].name;
+    const currentTeamName = standings[currentIndex].name;
 
-      if (currentHelpIndex === 0) {
-        displayedTeamHelp.push({ label: 'Length of the team name', value: currentTeamName.length.toString() });
-      } else if (currentHelpIndex === 1) {
-        displayedTeamHelp.push({ label: 'First letter of the team name', value: currentTeamName[0] });
-      } else if (currentHelpIndex === 2) {
-        displayedTeamHelp.push({ label: 'Last letter of the team name', value: currentTeamName.slice(-1) });
-      } else if (currentHelpIndex === 3) {
-        displayedTeamHelp.push({ label: 'space', value: currentTeamName.includes(' ') ? 'Have space' : 'No space' });
-      } else if (currentHelpIndex === 4) {
-        displayedTeamHelp.push({ label: 'Full team name', value: currentTeamName });
-      }
+    if (currentHelpIndex === 0) {
+      displayedTeamHelp.push({ label: 'Length', value: currentTeamName.length.toString() });
+    } else if (currentHelpIndex === 1) {
+      displayedTeamHelp.push({ label: 'First letter', value: currentTeamName[0] });
+    } else if (currentHelpIndex === 2) {
+      displayedTeamHelp.push({ label: 'Last letter', value: currentTeamName.slice(-1) });
+    } else if (currentHelpIndex === 3) {
+      displayedTeamHelp.push({ label: 'space', value: currentTeamName.includes(' ') ? 'Have space' : 'No space' });
+    } else if (currentHelpIndex === 4) {
+      displayedTeamHelp.push({ label: 'Answer', value: currentTeamName });
     }
   }
+}
 

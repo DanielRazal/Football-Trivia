@@ -1,8 +1,4 @@
-<!-- <h1 *ngIf="isAccepted" class="text-4xl text-center mt-5">Choose Trivia League</h1> -->
-
 <div class="h-screen flex justify-center items-center">
-
-
     <div class="help-container" *ngIf="!isAccepted">
         <div class="flex justify-start items-center">
             <mat-card class="w-72 h-80 custom-card">
@@ -19,10 +15,14 @@
 
     <div *ngIf="isAccepted">
         <div class="flex flex-wrap">
-            <mat-card class="h-52 w-52 m-2 league-container" *ngFor="let league of leagues">
-                <button (click)="getLeagueId(league.id)"><img [src]="league.logos.light" alt="{{league.name}}"></button>
-                <p class="text-4xl text-center percent-number">{{ percentNumber(league.id) }}%</p>
-                <button (click)="resetData(league.id)" mat-raised-button color="warn" class="mt-1">RESET</button>
+            <mat-spinner color="warn" *ngIf="loading"></mat-spinner>
+            <mat-card class="h-40 w-40 m-2 ml-10 league-container" *ngFor="let league of leagues">
+                <button (click)="getLeagueId(league.id)">
+                    <img [src]="league.logos.light" alt="{{league.name}}" loading="lazy">
+                </button>
+                <p class="text-4xl text-center percent-number">{{ percentNumber(league.id,totalGroups) }}%</p>
+                <button (click)="resetData(league.id)" mat-raised-button color="warn"
+                    class="mt-1 warn-button">RESET</button>
             </mat-card>
         </div>
     </div>
