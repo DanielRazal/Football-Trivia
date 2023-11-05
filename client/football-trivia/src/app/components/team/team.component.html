@@ -1,44 +1,51 @@
-<!-- <h1 class="text-4xl text-center mt-5">Guess the Team</h1> -->
+<div *ngIf="!loading">
 
-<div class="flex justify-center items-center">
-    <div class="my-2 flex items-center relative">
-        <div class="flex flex-col justify-center">
-            <mat-card class="h-40 w-40 m-2" *ngIf="standings[currentIndex] && !standings[currentIndex].isCorrect">
-                <img [src]="standings[currentIndex].href" loading="lazy" alt="{{standings[currentIndex].name}}">
+    <div class="flex justify-center items-center">
+        <div class="my-2 flex items-center relative">
+            <div class="flex flex-col justify-center">
+                <mat-card class="h-40 w-40 m-2" *ngIf="standings[currentIndex] && !standings[currentIndex].isCorrect">
+                    <img [src]="standings[currentIndex].href" loading="lazy" alt="{{standings[currentIndex].name}}">
+                </mat-card>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="help-container ml-5 mt-5">
+        <button mat-raised-button color="accent" (click)="showTeamHelp()"
+            [disabled]="isHelpButtonDisabled()">HELP</button>
+        <div class="flex justify-start items-center">
+            <mat-card class="w-72 p-2 mt-5 help-data" *ngIf="teamHelpVisible && displayedTeamHelp.length > 0">
+                <div class="flex justify-center items-center">
+                </div>
+
+                <div class="flex justify-start items-center">
+                    <div *ngIf="teamHelpVisible">
+                        <ng-container *ngFor="let help of displayedTeamHelp; let i = index">
+                            <p>{{ help.label }}: <span class="text-blue-500">{{ help.value }}</span></p>
+                        </ng-container>
+                    </div>
+                </div>
             </mat-card>
         </div>
     </div>
-</div>
 
 
-<div class="help-container ml-5 mt-5">
-    <button mat-raised-button color="accent" (click)="showTeamHelp()" [disabled]="isHelpButtonDisabled()">HELP</button>
-    <div class="flex justify-start items-center">
-        <mat-card class="w-72 p-2 mt-5 help-data" *ngIf="teamHelpVisible && displayedTeamHelp.length > 0">
-            <div class="flex justify-center items-center">
-            </div>
-
-            <div class="flex justify-start items-center">
-                <div *ngIf="teamHelpVisible">
-                    <ng-container *ngFor="let help of displayedTeamHelp; let i = index">
-                        <p>{{ help.label }}: <span class="text-blue-500">{{ help.value }}</span></p>
-                    </ng-container>
-                </div>
-            </div>
-        </mat-card>
+    <div class="flex justify-center items-center mt-10">
+        <div class="flex-column">
+            <mat-form-field>
+                <mat-label>Team Name</mat-label>
+                <input matInput [(ngModel)]="teamName">
+            </mat-form-field>
+        </div>
     </div>
-</div>
 
-
-<div class="flex justify-center items-center mt-10">
-    <div class="flex-column">
-        <mat-form-field>
-            <mat-label>Team Name</mat-label>
-            <input matInput [(ngModel)]="teamName">
-        </mat-form-field>
+    <div class="flex justify-center items-center mt-5">
+        <button mat-raised-button (click)="isInputCorrect()">Team Guesser</button>
     </div>
+
 </div>
 
-<div class="flex justify-center items-center mt-5">
-    <button mat-raised-button (click)="isInputCorrect()">Team Guesser</button>
+<div class="flex justify-center items-center h-screen" *ngIf="loading">
+    <mat-spinner color="warn"></mat-spinner>
 </div>

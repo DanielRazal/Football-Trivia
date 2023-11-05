@@ -21,6 +21,7 @@ export class TeamComponent implements OnInit {
   currentHelpIndex: number = 0;
   teamHelpVisible: boolean = true;
   displayedTeamHelp: { label: string; value: string }[] = [];
+  loading: boolean = true;
 
   constructor(private standingService: StandingService, private dialog: MatDialog,
     private router: Router) { }
@@ -30,8 +31,12 @@ export class TeamComponent implements OnInit {
     const leagueStandingsJSON = localStorage.getItem(`standings_${this.leagueId}`);
     if (leagueStandingsJSON) {
       this.standings = JSON.parse(leagueStandingsJSON);
+      this.loading = false;
     } else {
-      this.getStandingByLeagueId();
+      this.loadData().then(() => {
+        this.getStandingByLeagueId();
+        this.loading = false;
+      });
     }
 
     if (leagueStandingsJSON === '[]') {
@@ -110,11 +115,13 @@ export class TeamComponent implements OnInit {
         this.currentHelpIndex = 0;
       }
     }
-
   }
 
   isHelpButtonDisabled(): boolean {
     return this.displayedTeamHelp.length >= 5;
   }
 
+  async loadData() {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+  }
 }
