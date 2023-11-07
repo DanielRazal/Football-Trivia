@@ -1,5 +1,5 @@
 # Football Trivia
-Developed using **NodeJs and Angular**.
+Developed using **NodeJs and Angular**.\
 Football Trivia Challenge is an interactive web application that lets you guess the names of football teams from top leagues around the world.\
 You can select a league, guess team names, and use the "HELP" button for hints. It's a fun and educational way to test your football knowledge.
 
