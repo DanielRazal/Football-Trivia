@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import League from '../models/League';
 import { LeagueEnvironment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class LeagueService {
 
   constructor(private http: HttpClient) { }
@@ -14,9 +15,31 @@ export class LeagueService {
   private LEAGUES_API = LeagueEnvironment.LEAGUES_API;
 
   getLeagues(): Observable<League[]> {
-    const url = this.LEAGUES_API;
-    return this.http.get<League[]>(url);
+    return this.http.get<any>(this.LEAGUES_API).pipe(
+      map((response) => {
+        const data = response.data;
+
+        if (data) {
+          const leagueData = data.map((league: League) => {
+            return {
+              id: league.id,
+              name: league.name,
+              logos: league.logos,
+            };
+          });
+
+          const selectedIndices = [5, 9, 16, 7, 6];
+          const selectedLeagues = selectedIndices.map((index) => leagueData[index]);
+
+          return selectedLeagues;
+        } else {
+          console.error('Invalid API response format');
+          return [];
+        }
+      })
+    );
   }
+
 
   percentNumber(leagueId: string, totalGroups: number = 20) {
     const standingsByLeagueId = `standings_${leagueId}`;

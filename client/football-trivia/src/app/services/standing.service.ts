@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import Standing from '../models/Standing';
 import { StandingEnvironment } from 'src/environments/environment';
 
@@ -12,12 +12,28 @@ export class StandingService {
   constructor(private http: HttpClient) { }
 
   private STANDINGS_API = StandingEnvironment.STANDINGS_API;
+  private SEASON_API = StandingEnvironment.SEASON_API;
 
-  getStandingByLeagueId(id: string): Observable<Standing[]> {
-    const url = `${this.STANDINGS_API}/${id}`;
-    return this.http.get<Standing[]>(url);
+  getStandingByLeagueId(leagueId: string): Observable<any[]> {
+    const url = `${this.STANDINGS_API}/${leagueId}/${this.SEASON_API}`;
+
+    return this.http.get<any>(url).pipe(
+      map((response) => {
+        if (Array.isArray(response.data.standings)) {
+          const standingData = response.data.standings;
+          const teamInfo = standingData.map((standing: any) => ({
+            id: standing.team.id,
+            name: standing.team.name,
+            href: standing.team.logos[0].href,
+          }));
+          return teamInfo;
+        } else {
+          console.error('Invalid API response format');
+          return [];
+        }
+      })
+    );
   }
-
 
   HelpConditions(standings: Standing[], currentIndex: number, currentHelpIndex: number,
     displayedTeamHelp: { label: string; value: string }[]) {

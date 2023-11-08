@@ -22,7 +22,7 @@ export class TeamComponent implements OnInit {
   teamHelpVisible: boolean = true;
   displayedTeamHelp: { label: string; value: string }[] = [];
   loading: boolean = true;
-  timer: number = 500; 
+  timer: number = 500;
 
   constructor(private standingService: StandingService, private dialog: MatDialog,
     private router: Router) { }
@@ -34,7 +34,7 @@ export class TeamComponent implements OnInit {
       this.standings = JSON.parse(leagueStandingsJSON);
       this.loading = false;
     } else {
-        this.getStandingByLeagueId();
+      this.getStandingByLeagueId();
     }
 
     if (leagueStandingsJSON === '[]') {
@@ -121,7 +121,7 @@ export class TeamComponent implements OnInit {
   }
 
   onImageLoad(): void {
-    this.loading = true; 
+    this.loading = true;
     setTimeout(() => {
       this.loading = false;
     }, this.timer);
