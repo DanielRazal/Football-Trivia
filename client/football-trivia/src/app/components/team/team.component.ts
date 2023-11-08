@@ -22,6 +22,7 @@ export class TeamComponent implements OnInit {
   teamHelpVisible: boolean = true;
   displayedTeamHelp: { label: string; value: string }[] = [];
   loading: boolean = true;
+  timer: number = 500; 
 
   constructor(private standingService: StandingService, private dialog: MatDialog,
     private router: Router) { }
@@ -33,10 +34,7 @@ export class TeamComponent implements OnInit {
       this.standings = JSON.parse(leagueStandingsJSON);
       this.loading = false;
     } else {
-      this.loadData().then(() => {
         this.getStandingByLeagueId();
-        this.loading = false;
-      });
     }
 
     if (leagueStandingsJSON === '[]') {
@@ -49,6 +47,7 @@ export class TeamComponent implements OnInit {
   getStandingByLeagueId() {
     this.standingService.getStandingByLeagueId(this.leagueId).subscribe((standings) => {
       this.standings = standings;
+      this.loading = false;
       localStorage.setItem(`standings_${this.leagueId}`, JSON.stringify(this.standings));
     });
   }
@@ -121,7 +120,10 @@ export class TeamComponent implements OnInit {
     return this.displayedTeamHelp.length >= 5;
   }
 
-  async loadData() {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+  onImageLoad(): void {
+    this.loading = true; 
+    setTimeout(() => {
+      this.loading = false;
+    }, this.timer);
   }
 }

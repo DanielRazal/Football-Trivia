@@ -14,7 +14,6 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -33,8 +32,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatIconModule,
     MatInputModule,
     FormsModule,
-    MatDialogModule,
-    MatProgressSpinnerModule
+    MatDialogModule
   ],
   providers: [],
 

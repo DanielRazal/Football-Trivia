@@ -17,6 +17,7 @@ export class TriviaComponent implements OnInit {
   isAccepted: boolean = false;
   totalGroups: number = 20;
   loading: boolean = true;
+  timer: number = 500; 
 
 
   constructor(private leagueService: LeagueService,
@@ -24,10 +25,7 @@ export class TriviaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadData().then(() => {
       this.getLeagues();
-      this.loading = false;
-    });
   }
 
   showLeagues() {
@@ -68,7 +66,10 @@ export class TriviaComponent implements OnInit {
     return this.leagueService.percentNumber(leagueId, totalGroups)
   }
 
-  async loadData() {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+  onImageLoad(): void {
+    this.loading = true; 
+    setTimeout(() => {
+      this.loading = false;
+    }, this.timer);
   }
 }

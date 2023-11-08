@@ -15,12 +15,13 @@
 
     <div *ngIf="isAccepted">
         <div class="flex flex-wrap">
-            <mat-spinner color="warn" *ngIf="loading"></mat-spinner>
             <mat-card class="h-40 w-40 m-2 ml-10 league-container" *ngFor="let league of leagues">
-                <button (click)="getLeagueId(league.id)">
-                    <img [src]="league.logos.light" alt="{{league.name}}" loading="lazy">
+                <button (click)="getLeagueId(league.id)" [disabled]="loading ? true : false">
+                    <img [src]=" league.logos.light" alt="{{league.name}}" loading="lazy" (load)="onImageLoad()"
+                        class="object-contain duration-700 ease-in-out group-hover:opacity-75"
+                        [ngClass]="(loading) ? 'scale-110 blur-2xl grayscale' : 'scale-100 blur-0 grayscale-0'">
                 </button>
-                <p class="text-4xl text-center percent-number">{{ percentNumber(league.id,totalGroups) }}%</p>
+                <p class="text-4xl text-center percent-number">{{ percentNumber(league.id, totalGroups) }}%</p>
                 <button (click)="resetData(league.id)" mat-raised-button color="warn"
                     class="mt-1 warn-button">RESET</button>
             </mat-card>
