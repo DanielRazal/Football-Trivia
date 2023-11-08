@@ -1,5 +1,5 @@
 export const LeagueEnvironment = {
-    LEAGUES_API: 'http://api-football-standings.azharimm.dev/leagues',
+    LEAGUES_API: 'https://api-football-standings.azharimm.dev/leagues',
 };
 
 export const StandingEnvironment = {
