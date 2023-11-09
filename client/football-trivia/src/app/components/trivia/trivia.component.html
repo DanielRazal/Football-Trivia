@@ -14,7 +14,7 @@
     </div>
 
     <div *ngIf="isAccepted">
-        <div class="flex flex-wrap">
+        <div class="flex">
             <mat-card class="h-40 w-40 m-2 ml-10 league-container" *ngFor="let league of leagues">
                 <button (click)="getLeagueId(league.id)" [disabled]="loading ? true : false">
                     <img [src]=" league.logos.light" alt="{{league.name}}" loading="lazy" (load)="onImageLoad()"
